@@ -1,0 +1,12 @@
+# List of required packages (Dependencies)
+redis
+pyowm
+requests
+PyTelegramBotAPI==3.6.6
+
+
+
+
+# Or you need not a pip package, @'...' specifies git branch
+
+# Or you have .zip library
