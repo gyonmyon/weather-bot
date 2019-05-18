@@ -41,8 +41,8 @@ def handle_docs_audio(message):
 
 '''@bot.message_handler(regexp="(?<![\w.])[0-9]{2,4}([0-9])$")
 def guess_city(message):
-    '''Input number to guess a city
-    '''
+    Input number to guess a city
+    '
     obs = owm.weather_at_place(message.text)    
     l = obs.get_location()
     try:
