@@ -2,6 +2,8 @@
 redis
 pyowm
 requests
+time
+schedule
 PyTelegramBotAPI==3.6.6
 
 
