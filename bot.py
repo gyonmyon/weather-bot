@@ -3,7 +3,7 @@ import redis
 import os
 import telebot
 #host from home
-#import mytoken    
+import mytoken    
 
 # import some_api_lib
 # import ...
@@ -13,8 +13,8 @@ from yobit import get_btc
 
 # Example of your code beginning
 #           Config vars
-token = os.environ['TELEGRAM_TOKEN']
-API_key = os.environ['API_key']
+#token = os.environ['TELEGRAM_TOKEN']
+#API_key = os.environ['API_key']
 #             ...
 
 # If you use redis, install this add-on https://elements.heroku.com/addons/heroku-redis
@@ -22,7 +22,9 @@ API_key = os.environ['API_key']
 
 #       Your bot code below
 # token-telegram
-    #token = mytoken.TOKEN
+
+token = mytoken.TOKEN
+API_key = mytoken.API_key
 bot = telebot.TeleBot(token)
 # some_api = some_api_lib.connect(some_api_token)
 #              ...
@@ -37,7 +39,7 @@ owm = OWM(API_key, language="ua")
 def handle_docs_audio(message):
 	pass
 
-@bot.message_handler(regexp="/\d{3}\d*/g")
+@bot.message_handler(regexp="(?<![\w.])[0-9]{2,4}([0-9])$")
 def guess_city(message):
     '''Input number to guess a city
     '''
@@ -47,9 +49,9 @@ def guess_city(message):
         city_name = l.get_name()
         answer = 'Ты попал прямиком в {}'.format(city_name)
     except:
-        answer = 'Котик, попробуй в следующий раз'
+        answer = 'Котик, попробуй в еще раз'
     bot.send_message(message.chat.id, answer)
-    
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.send_message(message.chat.id, "Котичек, пока я умею определять погоду в твоем городе. Просто введи название твоего города")
