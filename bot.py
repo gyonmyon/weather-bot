@@ -7,6 +7,7 @@ import telebot
 
 # import some_api_lib
 # import ...
+from pyowm import exceptions
 from pyowm import OWM
 #Yobit function
 from yobit import get_btc
@@ -48,7 +49,7 @@ def guess_city(message):
     try:
         city_name = l.get_name()
         answer = 'Ты попал прямиком в {}'.format(city_name)
-    except:
+    except exceptions.OWMError:
         answer = 'Котик, попробуй в еще раз'
     bot.send_message(message.chat.id, answer)
     
