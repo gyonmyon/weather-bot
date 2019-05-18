@@ -118,4 +118,4 @@ def Send_weather(message):
 
 # try bot.infinity_polling(False)
 #offset=lastUpdateID + 1
-bot.polling(none_stop=False, interval=0, timeout=120)
+bot.polling(none_stop=False, interval=0, timeout=20)
