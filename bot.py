@@ -7,7 +7,8 @@ import telebot
 
 # import some_api_lib
 # import ...
-from pyowm import exceptions
+from pyowm.exceptions import api_response_error
+
 from pyowm import OWM
 #Yobit function
 from yobit import get_btc
@@ -44,12 +45,12 @@ def handle_docs_audio(message):
 def guess_city(message):
     '''Input number to guess a city
     '''
-    observation = owm.weather_at_place(message.text)
-    l = observation.get_location()
     try:
+        observation = owm.weather_at_place(message.text)
+        l = observation.get_location()
         city_name = l.get_name()
         answer = 'Ты попал прямиком в {}'.format(city_name)
-    except exceptions.OWMError:
+    except api_response_error.NotFoundError:
         answer = 'Котик, попробуй в еще раз'
     bot.send_message(message.chat.id, answer)
     
