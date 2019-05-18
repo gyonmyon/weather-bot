@@ -120,7 +120,7 @@ def Send_weather(message):
     except:
         answer = "Извини, котичек, я не понимаю("
     bot.send_message(message.chat.id, answer)
-    schedule.every().day.at("8:00").do(Send_weather)
+    schedule.every().day.at("08:00").do(Send_weather)
 
 # try bot.infinity_polling(False)
 #offset=lastUpdateID + 1
