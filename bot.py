@@ -39,19 +39,19 @@ owm = OWM(API_key, language="ua")
 def handle_docs_audio(message):
 	pass
 
-'''@bot.message_handler(regexp="(?<![\w.])[0-9]{2,4}([0-9])$")
+@bot.message_handler(regexp="(?<![\w.])[0-9]{2,4}([0-9])$")
 def guess_city(message):
-    Input number to guess a city
-    '
-    obs = owm.weather_at_place(message.text)    
-    l = obs.get_location()
+    '''Input number to guess a city
+    '''
+    observation = owm.weather_at_place(message.text)
+    l = observation.get_location()
     try:
         city_name = l.get_name()
         answer = 'Ты попал прямиком в {}'.format(city_name)
     except:
         answer = 'Котик, попробуй в еще раз'
     bot.send_message(message.chat.id, answer)
-    '''
+    
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
