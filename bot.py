@@ -33,14 +33,30 @@ bot = telebot.TeleBot(token)
 
 owm = OWM(API_key, language="ua")
 
+@bot.message_handler(content_types=['document', 'audio'])
+def handle_docs_audio(message):
+	pass
 
+@bot.message_handler(regexp="\n\d{3}\d*")
+def guess_city(message):
+    '''Input number to guess a city
+    '''
+    obs = owm.weather_at_place(message.text)    
+    l = obs.get_location()
+    try:
+        city_name = l.get_name()
+        answer = 'Ты попал прямиком в {}'.format(city_name)
+    except:
+        answer = 'Котик, попробуй в следующий раз'
+    bot.send_message(message.chat.id, answer)
+    
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(message, "Котичек, пока я умею определять погоду в твоем городе. Просто введи название твоего города")
+    bot.send_message(message.chat.id, "Котичек, пока я умею определять погоду в твоем городе. Просто введи название твоего города")
 
 @bot.message_handler(commands=['help'])
 def send_welcome(message):
-    bot.send_message(message, '''Котичек, я умею определять погоду в твоем городе. Просто введи свой город.
+    bot.send_message(message.chat.id, '''Котичек, я умею определять погоду в твоем городе. Просто введи свой город.
     
 Скрытые функции:
 /btc - показывает котичку текущий курс BTC в USD''')
@@ -65,6 +81,8 @@ def send_welcome(message):
 def send_welcome(message):
     answer = "В разработке"
     bot.send_message(message.chat.id, answer)
+
+
 
 
 @bot.message_handler(func=lambda message: True)
