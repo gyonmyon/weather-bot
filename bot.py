@@ -37,7 +37,7 @@ owm = OWM(API_key, language="ua")
 def handle_docs_audio(message):
 	pass
 
-@bot.message_handler(regexp="/\n\d{3}\d*/g")
+@bot.message_handler(regexp="/\d{3}\d*/g")
 def guess_city(message):
     '''Input number to guess a city
     '''
