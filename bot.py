@@ -73,7 +73,7 @@ def send_welcome(message):
     welcome_text = '''Привет, я в твоем распоряжении 24/7. Давай расскажу что я умею. Можешь ввести название города и я скажу тебе какая погода в любом городе. Так же можешь скинуть мне свою локацию и я определю сам, где Ты находишься)
     
 Все доступные функции можешь посмотреть в /help'''
-    time.sleep(7)
+    time.sleep(5)
     bot.send_message(message.chat.id, welcome_text)
 
 @bot.message_handler(commands=['help'])
