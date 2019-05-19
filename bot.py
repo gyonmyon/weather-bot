@@ -137,7 +137,9 @@ def text_message(message):
         weather = obs.get_weather()
         temperature = weather.get_temperature("celsius")["temp"]
         humidity = weather.get_humidity()
-
+        
+        l = obs.get_location()
+        city_name = l.get_name()
 
         answer = "Сейчас в твоем городе {} ".format(city_name) + weather.get_detailed_status() + "\n"
         answer += "Градусник показывает {}  градусов \n".format(temperature)
