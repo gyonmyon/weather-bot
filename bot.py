@@ -106,8 +106,8 @@ def take_location(message):
         temperature = weather.get_temperature("celsius")["temp"]
 
         answer = "Я нашел тебя 🙈\n"
-        answer += "Ты находишься в {}-city".format(city_name) + weather.get_detailed_status() + "\n"
-        answer += "Температура: {}  градусов .\n".format(temperature)
+        answer += "Сейчас в {}-city ".format(city_name) + weather.get_detailed_status() + "\n"
+        answer += "Температура: {}  градусов\n".format(temperature)
         answer += "Влажность: {}%".format(humidity) + "\n\n"
         if temperature < 0:
             answer += "Тебе там не холодно, котичка?"
