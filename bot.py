@@ -5,6 +5,7 @@ import telebot
 import schedule
 import time
 import random
+import config
 #host from home
 #import mytoken    
 
@@ -54,42 +55,19 @@ def guess_city(message):
         answer = 'Котик, попробуй в еще раз'
     bot.send_message(message.chat.id, answer)
 
-sticker_list = (
-    "CAADAgADAQADAcY0GmUhPCW6Bd4vAg",
-    "CAADAgADggAD8jJRHB0V6PPLbjFyAg",
-    "CAADAgADhAAD8jJRHLnk-jBUeuhTAg",
-    "CAADAgADkQAD8jJRHIfKn60XlZdSAg",
-    "CAADAgADhQAD8jJRHDNzGW-VTHq8Ag",
-    "CAADAgADhwAD8jJRHI0VAW1GfrO_Ag",
-    "CAADAgADgQAD8jJRHENq6dmDN1yDAg",
-    "CAADAgADhgAD8jJRHKJ8teQ4pD9RAg",
-    "CAADAgADhwAD8jJRHI0VAW1GfrO_Ag",
-    "CAADAgADiAAD8jJRHDTXmT_B0PiCAg"
-)
-
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.send_sticker(message.chat.id, "CAADAgADfgAD8jJRHBsycQ5qWUfNAg")
-    welcome_text = '''Привет, я в твоем распоряжении 24/7. Давай расскажу что я умею. Можешь ввести название города и я скажу тебе какая погода в любом городе. Так же можешь скинуть мне свою локацию и я определю сам, где Ты находишься)
-    
-Все доступные функции можешь посмотреть в /help'''
-    time.sleep(5)
-    bot.send_message(message.chat.id, welcome_text)
+    time.sleep(7)
+    bot.send_message(message.chat.id, config.welcome_text)
 
 @bot.message_handler(commands=['help'])
 def send_welcome(message):
-    help_text =  '''Котичек, я умею определять погоду в твоем городе. Просто введи свой город или отправь мне свою локацию.
-
-/sticker - давай отправлю тебе стикер)
-/contact - замечания и предложения отправляй котику, на его username
-
-Скрытые функции:
-/btc - показывает котичку текущий курс BTC в USD'''
-    bot.send_message(message.chat.id, help_text)
+    bot.send_message(message.chat.id, config.help_text)
 
 @bot.message_handler(commands=['sticker'])
 def send_welcome(message):
-    bot.send_sticker(message.chat.id, random.choice(sticker_list))
+    bot.send_sticker(message.chat.id, random.choice(config.sticker_list))
 
 @bot.message_handler(commands=['contact'])
 def send_welcome(message):
@@ -182,6 +160,4 @@ def text_message(message):
         answer = "Извини, котичек, я не понимаю("
     bot.send_message(message.chat.id, answer)
 
-# try bot.infinity_polling(False)
-#offset=lastUpdateID + 1
 bot.polling(none_stop=False, interval=0, timeout=20)
