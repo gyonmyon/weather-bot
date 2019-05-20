@@ -7,7 +7,7 @@ import time
 import random
 import config
 #host from home
-#import mytoken    
+import mytoken    
 
 # import some_api_lib
 # import ...
@@ -18,8 +18,8 @@ from yobit import get_btc
 
 # Example of your code beginning
 #           Config vars
-token = os.environ['TELEGRAM_TOKEN']
-API_key = os.environ['API_key']
+#token = os.environ['TELEGRAM_TOKEN']
+#API_key = os.environ['API_key']
 #             ...
 
 # If you use redis, install this add-on https://elements.heroku.com/addons/heroku-redis
@@ -28,8 +28,8 @@ API_key = os.environ['API_key']
 #       Your bot code below
 # token-telegram
 
-#token = mytoken.TOKEN
-#API_key = mytoken.API_key
+token = mytoken.TOKEN
+API_key = mytoken.API_key
 bot = telebot.TeleBot(token)
 #              ...
 # OWM API
@@ -62,15 +62,18 @@ def send_welcome(message):
     bot.send_message(message.chat.id, config.welcome_text)
 
 @bot.message_handler(commands=['help'])
-def send_welcome(message):
+def send_help(message):
     bot.send_message(message.chat.id, config.help_text)
 
 @bot.message_handler(commands=['sticker'])
-def send_welcome(message):
+def send_sticker(message):
     bot.send_sticker(message.chat.id, random.choice(config.sticker_list))
 
+@bot.inline_handler(lambda query: query.query == 'text')
+
+
 @bot.message_handler(commands=['contact'])
-def send_welcome(message):
+def send_contact(message):
     answer = "Если возникли вопросы или замечания, напиши этому челику: @gyonmyon"
     bot.send_message(message.chat.id, answer)
 
@@ -92,6 +95,7 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['location'])
 def take_location(message):
+    print(message)
     try:
         latitude = message.location.latitude
         longitude = message.location.longitude
@@ -107,7 +111,7 @@ def take_location(message):
 
         answer = "Я нашел тебя 🙈\n"
         answer += "Сейчас в {}-city ".format(city_name) + weather.get_detailed_status() + "\n"
-        answer += "Температура: {}  градусов\n".format(temperature)
+        answer += "Температура: {} градусов\n".format(temperature)
         answer += "Влажность: {}%".format(humidity) + "\n\n"
         if temperature < 0:
             answer += "Тебе там не холодно, котичка?"
