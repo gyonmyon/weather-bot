@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import redis
+import json
 import os
 import telebot
+from telebot import types
 import schedule
 import time
 import random
@@ -69,9 +71,6 @@ def send_help(message):
 def send_sticker(message):
     bot.send_sticker(message.chat.id, random.choice(config.sticker_list))
 
-@bot.inline_handler(lambda query: query.query == 'text')
-
-
 @bot.message_handler(commands=['contact'])
 def send_contact(message):
     answer = "Если возникли вопросы или замечания, напиши этому челику: @gyonmyon"
@@ -82,7 +81,6 @@ def send_welcome(message):
     answer = get_btc()
     bot.send_message(message.chat.id, answer)
     
-
 @bot.message_handler(commands=['city'])
 def send_welcome(message):
     answer = "В разработке"
@@ -95,7 +93,7 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['location'])
 def take_location(message):
-    print(message)
+    #print(message.json['date'])
     try:
         latitude = message.location.latitude
         longitude = message.location.longitude
