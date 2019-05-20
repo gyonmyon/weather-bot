@@ -12,8 +12,7 @@ import config
 #import mytoken    
 
 # import some_api_lib
-# import ...
-from pyowm.exceptions import api_response_error
+from pyowm import exceptions
 from pyowm import OWM
 #Yobit function
 from yobit import get_btc
@@ -46,21 +45,26 @@ def handle_docs_audio(message):
 
 @bot.message_handler(regexp="(?<![\w.])[0-9]{2,4}([0-9])$")
 def guess_city(message):
-    '''Input number to guess a city
-    '''
+    '''Input number to guess a city'''
     try:
         observation = owm.weather_at_place(message.text)
         l = observation.get_location()
         city_name = l.get_name()
-        answer = 'Ты попал прямиком в {}'.format(city_name)
-    except api_response_error.NotFoundError:
-        answer = 'Котик, попробуй в еще раз'
-    bot.send_message(message.chat.id, answer)
+        guess_answer = 'Ты попал прямиком в {}'.format(city_name)
+    except exceptions.api_response_error.NotFoundError:
+        guess_answer = 'Котик, попробуй еще раз'
+    except exceptions.api_call_error.APICallTimeoutError:
+        timeout_sticker = 'CAADAgADkgAD8jJRHGU0BGG5fiOiAg'
+        bot.send_sticker(message.chat.id, timeout_sticker)
+        time.sleep(5)
+        guess_answer = 'Сервер как-то долго отвечает, ждем ответа'
+    bot.send_message(message.chat.id, guess_answer)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_sticker(message.chat.id, "CAADAgADfgAD8jJRHBsycQ5qWUfNAg")
-    time.sleep(7)
+    start_sticker = "CAADAgADfgAD8jJRHBsycQ5qWUfNAg"
+    bot.send_sticker(message.chat.id, start_sticker)
+    time.sleep(5)
     bot.send_message(message.chat.id, config.welcome_text)
 
 @bot.message_handler(commands=['help'])
@@ -132,8 +136,7 @@ def take_location(message):
 
 @bot.message_handler(func=lambda message: True)
 def text_message(message):
-    '''Send weather to answer of message.
-    '''
+    '''Send weather to answer of message.'''
     try:
         obs = owm.weather_at_place(message.text)
         weather = obs.get_weather()
