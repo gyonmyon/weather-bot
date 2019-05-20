@@ -9,7 +9,7 @@ import time
 import random
 import config
 #host from home
-import mytoken    
+#import mytoken    
 
 # import some_api_lib
 # import ...
@@ -20,8 +20,8 @@ from yobit import get_btc
 
 # Example of your code beginning
 #           Config vars
-#token = os.environ['TELEGRAM_TOKEN']
-#API_key = os.environ['API_key']
+token = os.environ['TELEGRAM_TOKEN']
+API_key = os.environ['API_key']
 #             ...
 
 # If you use redis, install this add-on https://elements.heroku.com/addons/heroku-redis
@@ -30,8 +30,8 @@ from yobit import get_btc
 #       Your bot code below
 # token-telegram
 
-token = mytoken.TOKEN
-API_key = mytoken.API_key
+#token = mytoken.TOKEN
+#API_key = mytoken.API_key
 bot = telebot.TeleBot(token)
 #              ...
 # OWM API
