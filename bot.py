@@ -8,12 +8,12 @@ import schedule
 import time
 import random
 import config
+
 #host from home
 #import mytoken    
 
 # import some_api_lib
-from pyowm import exceptions
-from pyowm import OWM
+from pyowm import OWM, exceptions, timeutils
 #Yobit function
 from yobit import get_btc
 
@@ -26,18 +26,12 @@ API_key = os.environ['API_key']
 # If you use redis, install this add-on https://elements.heroku.com/addons/heroku-redis
 # r = redis.from_url(os.environ.get("REDIS_URL"))
 
-#       Your bot code below
-# token-telegram
-
 #token = mytoken.TOKEN
 #API_key = mytoken.API_key
 bot = telebot.TeleBot(token)
-#              ...
-# OWM API
-
-#host from home
 
 owm = OWM(API_key, language="ua")
+#              ...
 
 @bot.message_handler(content_types=['document', 'audio'])
 def handle_docs_audio(message):
@@ -47,8 +41,8 @@ def handle_docs_audio(message):
 def guess_city(message):
     '''Input number to guess a city'''
     try:
-        observation = owm.weather_at_place(message.text)
-        l = observation.get_location()
+        obs = owm.weather_at_place(message.text)
+        l = obs.get_location()
         city_name = l.get_name()
         guess_answer = 'Ты попал прямиком в {}'.format(city_name)
     except exceptions.api_response_error.NotFoundError:
@@ -77,8 +71,8 @@ def send_sticker(message):
 
 @bot.message_handler(commands=['contact'])
 def send_contact(message):
-    answer = "Если возникли вопросы или замечания, напиши этому челику: @gyonmyon"
-    bot.send_message(message.chat.id, answer)
+    answer_contact = "Если возникли вопросы или замечания, напиши этому челику: @gyonmyon"
+    bot.send_message(message.chat.id, answer_contact)
 
 @bot.message_handler(commands=['btc'])
 def send_welcome(message):
@@ -145,6 +139,9 @@ def text_message(message):
 
         l = obs.get_location()
         city_name = l.get_name()
+
+        fc = owm.three_hours_forecast(message.text)
+        f = fc.get_forecast()
 
         answer = "Сейчас в твоем городе {} ".format(city_name) + weather.get_detailed_status() + "\n"
         answer += "Градусник показывает {}  градусов \n".format(temperature)
