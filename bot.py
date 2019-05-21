@@ -2,8 +2,7 @@
 import redis
 import json
 import os
-import telebot
-from telebot import types
+from telebot import TeleBot, types
 import schedule
 import time
 import random
@@ -17,16 +16,13 @@ from pyowm import OWM, exceptions, timeutils
 #Yobit function
 from yobit import get_btc
 
-# Example of your code beginning
 #           Config vars
 token = os.environ['TELEGRAM_TOKEN']
 API_key = os.environ['API_key']
 
 # If you use redis, install this add-on https://elements.heroku.com/addons/heroku-redis
 # r = redis.from_url(os.environ.get("REDIS_URL"))
-
-bot = telebot.TeleBot(token)
-
+bot = TeleBot(token)
 owm = OWM(API_key, language="ua")
 #              ...
 
@@ -49,16 +45,14 @@ def guess_city(message):
     except exceptions.api_response_error.NotFoundError:
         guess_answer = 'Котик, попробуй еще раз'
     except exceptions.api_call_error.APICallTimeoutError:
-        timeout_sticker = 'CAADAgADkgAD8jJRHGU0BGG5fiOiAg'
-        bot.send_sticker(message.chat.id, timeout_sticker)
+        bot.send_sticker(message.chat.id, config.timeout_sticker)
         time.sleep(5)
         guess_answer = 'Сервер как-то долго отвечает, ждем ответа'
     bot.send_message(message.chat.id, guess_answer)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    start_sticker = "CAADAgADfgAD8jJRHBsycQ5qWUfNAg"
-    bot.send_sticker(message.chat.id, start_sticker)
+    bot.send_sticker(message.chat.id, config.start_sticker)
     time.sleep(5)
     bot.send_message(message.chat.id, config.welcome_text)
 

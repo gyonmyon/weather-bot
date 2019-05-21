@@ -11,6 +11,8 @@ welcome_text = '''Привет, я в твоем распоряжении 24/7. 
 Все доступные функции можешь посмотреть в /help'''
 
 sticker_list = (
+    "CAADAgADfgAD8jJRHBsycQ5qWUfNAg",
+    "CAADAgADkgAD8jJRHGU0BGG5fiOiAg",
     "CAADAgADAQADAcY0GmUhPCW6Bd4vAg",
     "CAADAgADggAD8jJRHB0V6PPLbjFyAg",
     "CAADAgADhAAD8jJRHLnk-jBUeuhTAg",
@@ -22,6 +24,8 @@ sticker_list = (
     "CAADAgADhwAD8jJRHI0VAW1GfrO_Ag",
     "CAADAgADiAAD8jJRHDTXmT_B0PiCAg"
 )
+sticker_start = sticker_list[0]
+timeout_sticker = sticker_list[1]
 
 # try bot.infinity_polling(False)
 #offset=lastUpdateID + 1
