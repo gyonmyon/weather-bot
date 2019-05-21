@@ -5,6 +5,8 @@ ticker = '/ticker'
 
 
 def get_btc():
+    '''Return buying and selling price of last transaction BTC to USD
+    '''
     url = URL + 'btc_usd' + ticker
     print(url)
     response = requests.get(url).json()

@@ -10,7 +10,6 @@ welcome_text = '''Привет, я в твоем распоряжении 24/7. 
     
 Все доступные функции можешь посмотреть в /help'''
 
-
 sticker_list = (
     "CAADAgADAQADAcY0GmUhPCW6Bd4vAg",
     "CAADAgADggAD8jJRHB0V6PPLbjFyAg",
@@ -26,3 +25,7 @@ sticker_list = (
 
 # try bot.infinity_polling(False)
 #offset=lastUpdateID + 1
+answer_text = '''Сейчас в твоем городе {}: {}
+Градусник показывает {} градусов
+Влажность: {}%
+'''

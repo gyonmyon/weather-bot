@@ -10,7 +10,7 @@ import random
 import config
 
 #host from home
-#import mytoken    
+#from mytoken import token, API_key   
 
 # import some_api_lib
 from pyowm import OWM, exceptions, timeutils
@@ -21,25 +21,26 @@ from yobit import get_btc
 #           Config vars
 token = os.environ['TELEGRAM_TOKEN']
 API_key = os.environ['API_key']
-#             ...
 
 # If you use redis, install this add-on https://elements.heroku.com/addons/heroku-redis
 # r = redis.from_url(os.environ.get("REDIS_URL"))
 
-#token = mytoken.TOKEN
-#API_key = mytoken.API_key
 bot = telebot.TeleBot(token)
 
 owm = OWM(API_key, language="ua")
 #              ...
 
-@bot.message_handler(content_types=['document', 'audio'])
+@bot.message_handler(content_types=['audio'])
 def handle_docs_audio(message):
-	pass
+    answer_audio = "Спасибо котик, обязательно послушаю"
+    bot.send_message(message.chat.id, answer_audio)
 
 @bot.message_handler(regexp="(?<![\w.])[0-9]{2,4}([0-9])$")
 def guess_city(message):
-    '''Input number to guess a city'''
+    '''Return city name by a number
+    
+    If city not found - return NotFoundError
+    If Timeout is reached - return APICallTimeoutError'''
     try:
         obs = owm.weather_at_place(message.text)
         l = obs.get_location()
@@ -106,9 +107,7 @@ def take_location(message):
         temperature = weather.get_temperature("celsius")["temp"]
 
         answer = "Я нашел тебя 🙈\n"
-        answer += "Сейчас в {}-city ".format(city_name) + weather.get_detailed_status() + "\n"
-        answer += "Температура: {} градусов\n".format(temperature)
-        answer += "Влажность: {}%".format(humidity) + "\n\n"
+        answer += config.answer_text.format(city_name, weather.get_detailed_status(), temperature, humidity)
         if temperature < 0:
             answer += "Тебе там не холодно, котичка?"
         elif temperature < 10:
@@ -130,7 +129,9 @@ def take_location(message):
 
 @bot.message_handler(func=lambda message: True)
 def text_message(message):
-    '''Send weather to answer of message.'''
+    '''Send weather of current time to answer of message.
+    
+    If location not found - return NotFound text'''
     try:
         obs = owm.weather_at_place(message.text)
         weather = obs.get_weather()
@@ -143,9 +144,7 @@ def text_message(message):
         fc = owm.three_hours_forecast(message.text)
         f = fc.get_forecast()
 
-        answer = "Сейчас в твоем городе {} ".format(city_name) + weather.get_detailed_status() + "\n"
-        answer += "Градусник показывает {}  градусов \n".format(temperature)
-        answer += "Влажность: {}%".format(humidity) + "\n\n"
+        answer = config.answer_text.format(city_name, weather.get_detailed_status(), temperature, humidity)
         if temperature < 0:
             answer += "Надевай шапку, лапуля, а то замерзнешь, лучше бы не вылазить из постели)"
         elif temperature < 10:
