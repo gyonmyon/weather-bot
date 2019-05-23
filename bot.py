@@ -47,7 +47,7 @@ def guess_city(message):
     except exceptions.api_call_error.APICallTimeoutError:
         bot.send_sticker(message.chat.id, config.timeout_sticker)
         time.sleep(5)
-        guess_answer = 'Сервер как-то долго отвечает, ждем ответа'
+        guess_answer = config.answer_APICallTimeoutError
     bot.send_message(message.chat.id, guess_answer)
 
 @bot.message_handler(commands=['start'])
@@ -115,9 +115,11 @@ def take_location(message):
         elif 25 <= temperature <= 30:
             answer += "Еще чуть-чуть и станет совсем жарко, раздевайся...))"
         elif temperature > 30:
-            answer += "Если ты на улице то лучше быть в тени. И не забывай пить воду 🐈"
-    except:
-        answer = "Извини, котичек, я не понимаю("
+            answer += random.choice(config.answer_list_hot)
+    except exceptions.api_response_error.NotFoundError:
+        answer = random.choice(config.answer_NotFoundError)
+    except exceptions.api_call_error.APICallTimeoutError:
+        answer = config.answer_APICallTimeoutError
     
     bot.send_message(message.chat.id, answer)
 
@@ -152,9 +154,11 @@ def text_message(message):
         elif 25 <= temperature <= 30:
             answer += "Наконец-то тепло и мне не нужно следить, чтобы котики не ходили раздетые"
         elif temperature > 30:
-            answer += "Становится очень жарко, не забывай пить воду и лучше остаться дома)"
-    except:
-        answer = "Извини, котичек, я не понимаю("
+            answer += random.choice(config.answer_list_hot)
+    except exceptions.api_response_error.NotFoundError:
+        answer = random.choice(config.answer_NotFoundError)
+    except exceptions.api_call_error.APICallTimeoutError:
+        answer = config.answer_APICallTimeoutError
     bot.send_message(message.chat.id, answer)
 
 bot.polling(none_stop=False, interval=0, timeout=20)
