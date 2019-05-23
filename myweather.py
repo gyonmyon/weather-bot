@@ -1,8 +1,9 @@
 from pyowm import OWM, exceptions, timeutils
-import random, config
-from mytoken import token, API_key  
+import random, config, os
+#from mytoken import token, API_key  
 from datetime import date
 
+API_key = os.environ['API_key']
 owm = OWM(API_key, language="ua")
 
 def get_loc_weather(latitude, longitude):
