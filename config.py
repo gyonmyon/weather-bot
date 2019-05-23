@@ -24,12 +24,12 @@ sticker_list = (
     "CAADAgADhwAD8jJRHI0VAW1GfrO_Ag",
     "CAADAgADiAAD8jJRHDTXmT_B0PiCAg"
 )
-sticker_start = sticker_list[0]
+start_sticker = sticker_list[0]
 timeout_sticker = sticker_list[1]
 
 # try bot.infinity_polling(False)
 #offset=lastUpdateID + 1
-answer_text = '''Сейчас в твоем городе {}: {} \n
+answer_text = '''Сейчас в твоем городе {}: {}
 Градусник показывает {} градусов
 Влажность: {}% \n
 '''

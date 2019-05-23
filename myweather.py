@@ -16,7 +16,7 @@ def get_loc_weather(latitude, longitude):
         city_name = l.get_name()
         temperature = weather.get_temperature("celsius")["temp"]
 
-        answer = "Я нашел тебя 🙈"
+        answer = "Я нашел тебя 🙈  \n"
         answer += config.answer_text.format(city_name, weather.get_detailed_status(), temperature, humidity)
         if temperature < 0:
             answer += "Тебе там не холодно, котичка?"
