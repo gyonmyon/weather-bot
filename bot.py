@@ -2,17 +2,18 @@
 import redis
 import json
 import os
-from telebot import TeleBot, types
 import schedule
-import time
+
 import random
 import config
-from myweather import get_loc_weather, get_city_weather
+from time import sleep
+from telebot import TeleBot, types
+from myweather import get_loc_weather, get_city_weather, get_forecasts
 
 #host from home
 from mytoken import token, API_key   
 
-# import some_api_lib
+# import api_lib
 from pyowm import OWM, exceptions, timeutils
 #Yobit function
 from yobit import get_btc
@@ -46,14 +47,14 @@ def guess_city(message):
         guess_answer = config.answer_NotFound
     except exceptions.api_call_error.APICallTimeoutError:
         bot.send_sticker(message.chat.id, config.timeout_sticker)
-        time.sleep(5)
+        sleep(5)
         guess_answer = config.answer_APICallTimeout
     bot.send_message(message.chat.id, guess_answer)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.send_sticker(message.chat.id, config.start_sticker)
-    time.sleep(5)
+    sleep(5)
     bot.send_message(message.chat.id, config.welcome_text)
 
 @bot.message_handler(commands=['help'])
@@ -87,7 +88,18 @@ def take_location(message):
 
     latitude = message.location.latitude
     longitude = message.location.longitude
-    bot.send_message(message.chat.id, get_loc_weather(latitude, longitude))
+    keyboard = types.InlineKeyboardMarkup()
+    callback_button = types.InlineKeyboardButton(text="Детальніше", callback_data='more_forecast')
+    keyboard.add(callback_button)
+
+    bot.send_message(message.chat.id, get_loc_weather(latitude, longitude), reply_markup=keyboard)
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    # Если сообщение из чата с ботом
+    if call.message:
+        if call.data == 'more_forecast':
+            bot.send_message(call.message.chat.id, config.answer_dev)
     
 @bot.message_handler(func=lambda message: True)
 def text_message(message):    

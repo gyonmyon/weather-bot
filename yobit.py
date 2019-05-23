@@ -3,7 +3,6 @@ import requests
 URL = 'https://yobit.net/api/2/'
 ticker = '/ticker'
 
-
 def get_btc():
     '''Return buying and selling price of last transaction BTC to USD
     '''
@@ -18,6 +17,3 @@ def get_btc():
 Selling price: {} USD'''.format(buying_price, selling_price)
             
     return last
-
-get_btc()
-

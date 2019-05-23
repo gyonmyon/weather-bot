@@ -29,7 +29,7 @@ timeout_sticker = sticker_list[1]
 
 # try bot.infinity_polling(False)
 #offset=lastUpdateID + 1
-answer_text = '''Сейчас в твоем городе {}: {}
+answer_text = '''Сейчас в твоем городе {}: {} \n
 Градусник показывает {} градусов
 Влажность: {}% \n
 '''
