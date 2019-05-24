@@ -36,7 +36,9 @@ def get_loc_weather(latitude, longitude):
         answer = random.choice(config.answer_NotFound)
     except exceptions.api_call_error.APICallTimeoutError:
         answer = config.answer_APICallTimeout
-    
+    except exceptions.api_call_error.APICallError:
+        answer = config.answer_APICallError
+
     return answer
 
 def get_city_weather(city):
@@ -75,6 +77,8 @@ def get_city_weather(city):
         answer = random.choice(config.answer_NotFound)
     except exceptions.api_call_error.APICallTimeoutError:
         answer = config.answer_APICallTimeout
+    except exceptions.api_call_error.APICallError:
+        answer = config.answer_APICallError
 
     return answer
 
