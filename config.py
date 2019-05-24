@@ -1,8 +1,8 @@
 import os
 from telebot import TeleBot, types
-from mytoken import token
+#from mytoken import token
 
-#token = os.environ['TELEGRAM_TOKEN']
+token = os.environ['TELEGRAM_TOKEN']
 bot = TeleBot(token)
 
 help_text =  '''Котичек, я умею определять погоду в твоем городе. Просто введи свой город или отправь мне свою локацию.

@@ -10,9 +10,6 @@ from time import sleep
 from telebot import TeleBot, types
 from myweather import get_loc_weather, get_city_weather, get_forecasts, owm
 
-#host from home
-from mytoken import token, API_key   
-
 # import api_lib
 from pyowm import exceptions, timeutils
 #Yobit function

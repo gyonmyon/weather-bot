@@ -1,11 +1,12 @@
 from pyowm import OWM, exceptions, timeutils
 from config import bot
 import random, config, os
-from mytoken import token, API_key  
+
 from datetime import date
 from time import sleep
+#from mytoken import token, API_key  
 
-#API_key = os.environ['API_key']
+API_key = os.environ['API_key']
 owm = OWM(API_key, language="ua")
 
 def get_loc_weather(latitude, longitude, message):
@@ -150,5 +151,3 @@ def get_forecasts(city):
 if __name__ == "__main__":
     get_moc_weather(50, 20)
     get_forecasts("Бориспіль")
-    
-    
