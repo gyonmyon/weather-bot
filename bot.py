@@ -61,21 +61,25 @@ def send_help(message):
 def send_sticker(message):
     bot.send_sticker(message.chat.id, random.choice(config.sticker_list))
 
+@bot.message_handler(content_types=['sticker'])
+def send_sticker(message):
+    bot.send_sticker(message.chat.id, random.choice(config.sticker_list))
+
 @bot.message_handler(commands=['contact'])
 def send_contact(message):
     bot.send_message(message.chat.id, config.answer_contact)
 
 @bot.message_handler(commands=['btc'])
-def send_welcome(message):
+def send_btc(message):
     answer = get_btc()
     bot.send_message(message.chat.id, answer)
     
 @bot.message_handler(commands=['city'])
-def send_welcome(message):
+def send_city(message):
     bot.send_message(message.chat.id, config.answer_dev)
 
 @bot.message_handler(commands=['home'])
-def send_welcome(message):
+def send_home(message):
     bot.send_message(message.chat.id, config.answer_dev)
 
 @bot.message_handler(content_types=['location'])
