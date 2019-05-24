@@ -1,3 +1,10 @@
+import os
+from telebot import TeleBot, types
+from mytoken import token
+
+#token = os.environ['TELEGRAM_TOKEN']
+bot = TeleBot(token)
+
 help_text =  '''Котичек, я умею определять погоду в твоем городе. Просто введи свой город или отправь мне свою локацию.
 
 /sticker - давай отправлю тебе стикер)
@@ -13,6 +20,7 @@ welcome_text = '''Привет, я в твоем распоряжении 24/7. 
 sticker_list = (
     "CAADAgADfgAD8jJRHBsycQ5qWUfNAg",
     "CAADAgADkgAD8jJRHGU0BGG5fiOiAg",
+    'CAADAgADkwAD8jJRHC9MPI-Y7TsBAg', # Ошибочка
     "CAADAgADAQADAcY0GmUhPCW6Bd4vAg",
     "CAADAgADggAD8jJRHB0V6PPLbjFyAg",
     "CAADAgADhAAD8jJRHLnk-jBUeuhTAg",
@@ -26,6 +34,7 @@ sticker_list = (
 )
 start_sticker = sticker_list[0]
 timeout_sticker = sticker_list[1]
+error_sticker = sticker_list[2]
 
 # try bot.infinity_polling(False)
 #offset=lastUpdateID + 1

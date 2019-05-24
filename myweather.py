@@ -1,12 +1,14 @@
 from pyowm import OWM, exceptions, timeutils
+from config import bot
 import random, config, os
-#from mytoken import token, API_key  
+from mytoken import token, API_key  
 from datetime import date
+from time import sleep
 
-API_key = os.environ['API_key']
+#API_key = os.environ['API_key']
 owm = OWM(API_key, language="ua")
 
-def get_loc_weather(latitude, longitude):
+def get_loc_weather(latitude, longitude, message):
     try:
         obs = owm.weather_at_coords(latitude, longitude)
         weather = obs.get_weather()
@@ -33,6 +35,8 @@ def get_loc_weather(latitude, longitude):
         elif temperature > 30:
             answer += random.choice(config.answer_list_hot)
     except exceptions.api_response_error.NotFoundError:
+        bot.send_sticker(message.chat.id, config.error_sticker)
+        sleep(3)
         answer = random.choice(config.answer_NotFound)
     except exceptions.api_call_error.APICallTimeoutError:
         answer = config.answer_APICallTimeout
@@ -74,6 +78,7 @@ def get_city_weather(city):
         elif temperature > 30:
             answer += random.choice(config.answer_list_hot)
     except exceptions.api_response_error.NotFoundError:
+        sleep(3)
         answer = random.choice(config.answer_NotFound)
     except exceptions.api_call_error.APICallTimeoutError:
         answer = config.answer_APICallTimeout

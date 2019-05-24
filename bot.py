@@ -1,31 +1,27 @@
 # -*- coding: utf-8 -*-
 import redis
 import json
-import os
 import schedule
 
 import random
 import config
+from config import bot
 from time import sleep
 from telebot import TeleBot, types
-from myweather import get_loc_weather, get_city_weather, get_forecasts
+from myweather import get_loc_weather, get_city_weather, get_forecasts, owm
 
 #host from home
-#from mytoken import token, API_key   
+from mytoken import token, API_key   
 
 # import api_lib
-from pyowm import OWM, exceptions, timeutils
+from pyowm import exceptions, timeutils
 #Yobit function
 from yobit import get_btc
 
 #           Config vars
-token = os.environ['TELEGRAM_TOKEN']
-API_key = os.environ['API_key']
-
 # If you use redis, install this add-on https://elements.heroku.com/addons/heroku-redis
 # r = redis.from_url(os.environ.get("REDIS_URL"))
-bot = TeleBot(token)
-owm = OWM(API_key, language="ua")
+
 #              ...
 
 @bot.message_handler(content_types=['audio'])
@@ -92,7 +88,7 @@ def take_location(message):
     callback_button = types.InlineKeyboardButton(text="Детальніше", callback_data='more_forecast')
     keyboard.add(callback_button)
 
-    bot.send_message(message.chat.id, get_loc_weather(latitude, longitude), reply_markup=keyboard)
+    bot.send_message(message.chat.id, get_loc_weather(latitude, longitude, message), reply_markup=keyboard)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
